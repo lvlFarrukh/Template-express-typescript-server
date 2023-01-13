@@ -1,12 +1,9 @@
 import express, {Express} from 'express';
 import morgan from 'morgan';
-import dotenv from "dotenv";
-import connectDB from "./config/dbconnection"
+import './config/dbconnection'
 
 import LoginRouter from './Api/Routes/LoginRoute';
 import SignupRouter from './Api/Routes/SignupRoute';
-
-dotenv.config();
 
 class Server {
   server: Express;
@@ -14,7 +11,6 @@ class Server {
     this.server = express();
     this.middlewares();
     this.routes();
-    connectDB();
   }
 
   middlewares() {

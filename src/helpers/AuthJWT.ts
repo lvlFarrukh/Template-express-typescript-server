@@ -6,12 +6,16 @@ export interface CustomRequest extends Request {
   token: string | JwtPayload;
 }
 
-export const createAuth = (userName: string) => {
-  const token = jwt.sign({name: userName}, process.env.SECRET_KEY, {
-    expiresIn: '5min',
+export const createAuth = (user: any) => {
+  const token = jwt.sign({email: user.email}, process.env.SECRET_KEY, {
+    expiresIn: process.env.AUTH_TIME,
   });
 
-  return { user: { userName }, token };
+  return { session: { 
+    userID: user._id,
+    name: user.name,
+    email: user.email,
+   }, token };
 }
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
@@ -23,7 +27,6 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
    }
 
    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-   console.log('token decoded', decoded);
    (req as CustomRequest).token = decoded;
 
    next();
