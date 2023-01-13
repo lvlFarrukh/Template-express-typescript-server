@@ -1,0 +1,5 @@
+collection -> field -> need to script while deploy
+
+
+
+users -> email -> make unique and index
